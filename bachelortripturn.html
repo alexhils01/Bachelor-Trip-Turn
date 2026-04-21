@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>At The Turn — Player Instructions</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+:root {
+--green: #1a4a2e;
+--green-mid: #2d6e47;
+--green-pale: #e8f4ed;
+--gold: #c9a84c;
+--cream: #faf8f2;
+--ink: #1a1a14;
+--muted: #6b6b5a;
+--border: #d4cdb8;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+background: var(–cream);
+font-family: ‘DM Sans’, sans-serif;
+color: var(–ink);
+min-height: 100vh;
+}
+
+header {
+background: var(–green);
+padding: 26px 20px 20px;
+text-align: center;
+position: relative;
+overflow: hidden;
+}
+header::before {
+content: ‘’;
+position: absolute; inset: 0;
+background: repeating-linear-gradient(45deg, transparent, transparent 20px, rgba(255,255,255,0.025) 20px, rgba(255,255,255,0.025) 21px);
+pointer-events: none;
+}
+.eyebrow { font-size: 10px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: var(–gold); margin-bottom: 5px; position: relative; }
+header h1 { font-family: ‘Bebas Neue’, sans-serif; font-size: 44px; letter-spacing: 2px; color: #fff; line-height: 1; position: relative; }
+header .sub { font-size: 12px; color: rgba(255,255,255,0.55); margin-top: 6px; position: relative; }
+.pin-badge { display: inline-block; background: var(–gold); color: var(–green); font-size: 11px; font-weight: 700; letter-spacing: 0.5px; padding: 3px 11px; border-radius: 20px; margin-top: 10px; position: relative; }
+
+.search-wrap { padding: 16px 16px 4px; max-width: 620px; margin: 0 auto; }
+.search-wrap input {
+width: 100%; padding: 11px 15px; border: 2px solid var(–border); border-radius: 8px;
+font-family: ‘DM Sans’, sans-serif; font-size: 15px; background: #fff; outline: none; transition: border-color 0.2s;
+}
+.search-wrap input:focus { border-color: var(–green); }
+.search-wrap input::placeholder { color: #bbb; }
+
+.tabs {
+display: flex; gap: 7px; padding: 10px 16px 4px;
+max-width: 620px; margin: 0 auto; overflow-x: auto; scrollbar-width: none;
+}
+.tabs::-webkit-scrollbar { display: none; }
+.tab {
+flex-shrink: 0; padding: 6px 13px; border-radius: 20px; font-size: 12px; font-weight: 600;
+cursor: pointer; border: 1.5px solid var(–border); background: #fff; color: var(–muted); transition: all 0.15s;
+white-space: nowrap;
+}
+.tab.active { background: var(–green); color: #fff; border-color: var(–green); }
+
+.grid { display: grid; grid-template-columns: 1fr; gap: 14px; padding: 12px 16px 48px; max-width: 620px; margin: 0 auto; }
+
+.card {
+background: #fff; border-radius: 12px; border: 1.5px solid var(–border);
+overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+transition: box-shadow 0.2s, transform 0.15s;
+}
+.card:hover { box-shadow: 0 6px 20px rgba(0,0,0,0.11); transform: translateY(-1px); }
+
+.card-head {
+display: flex; align-items: center; gap: 12px;
+padding: 13px 15px 11px;
+background: linear-gradient(120deg, var(–green) 0%, var(–green-mid) 100%);
+}
+.avatar {
+width: 42px; height: 42px; border-radius: 50%; background: var(–gold);
+display: flex; align-items: center; justify-content: center;
+font-family: ‘Bebas Neue’, sans-serif; font-size: 19px; color: var(–green);
+flex-shrink: 0; border: 2px solid rgba(255,255,255,0.25);
+}
+.pname { font-family: ‘Bebas Neue’, sans-serif; font-size: 26px; letter-spacing: 1px; color: #fff; line-height: 1; }
+.pmeta { font-size: 11px; color: rgba(255,255,255,0.6); margin-top: 2px; }
+
+.status-pill {
+margin-left: auto; flex-shrink: 0;
+font-size: 10px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase;
+padding: 4px 10px; border-radius: 20px;
+}
+.pill-go { background: #4caf7d; color: #fff; }
+.pill-switch { background: #f0c040; color: #3a2c00; }
+.pill-wait { background: #e05a2b; color: #fff; }
+
+.card-body { padding: 13px 15px; }
+
+.row-2col { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 10px; }
+
+.mini-block {
+background: var(–green-pale); border-radius: 7px; padding: 8px 10px;
+}
+.mini-block.gold-bg { background: #fff8e6; }
+.mini-label { font-size: 9px; font-weight: 700; letter-spacing: 1.8px; text-transform: uppercase; color: var(–muted); margin-bottom: 3px; }
+.mini-val { font-size: 12px; font-weight: 600; color: var(–ink); line-height: 1.4; }
+
+.divider { height: 1.5px; background: #f0ece0; margin: 10px 0; }
+
+.action-label { font-size: 9px; font-weight: 700; letter-spacing: 1.8px; text-transform: uppercase; color: var(–muted); margin-bottom: 6px; }
+
+.box-go {
+background: #f0faf4; border: 1.5px solid #a0d4b4; border-radius: 8px; padding: 10px 13px;
+font-size: 14px; color: #1a4a2a; line-height: 1.6;
+}
+.box-switch {
+background: #fffbee; border: 1.5px solid #e8cc60; border-radius: 8px; padding: 10px 13px;
+font-size: 14px; color: #4a3800; line-height: 1.6;
+}
+.box-wait {
+background: #fff3ee; border: 1.5px solid #e09070; border-radius: 8px; padding: 10px 13px;
+font-size: 14px; color: #4a1a00; line-height: 1.6;
+}
+
+.box-switch b, .box-wait b, .box-go b { font-weight: 700; }
+
+.footer-note {
+margin-top: 8px; display: flex; align-items: flex-start; gap: 7px;
+background: #f4f0ff; border: 1.5px solid #c4b8e8; border-radius: 7px;
+padding: 8px 11px; font-size: 12px; color: #2a1a66; line-height: 1.5;
+}
+.footer-note .icon { font-size: 14px; flex-shrink: 0; margin-top: 1px; }
+
+.hidden { display: none !important; }
+</style>
+
+</head>
+<body>
+
+<header>
+<div class="eyebrow">Donald Ross Golf</div>
+<h1>At The Turn</h1>
+<p class="sub">Round 2 (Front 9, Scramble) → Round 3 (Back 9, Scramble)</p>
+<div class="pin-badge">⛳ CTP Hole 6 (R2) &nbsp;·&nbsp; CTP Hole 16 (R3)</div>
+</header>
+
+<div class="search-wrap">
+<input type="text" id="searchInput" placeholder="Find your name…" oninput="filterSearch()">
+</div>
+
+<div class="tabs">
+<div class="tab active" onclick="filterTab('all',this)">All Players</div>
+<div class="tab" onclick="filterTab('go',this)">✅ No Change</div>
+<div class="tab" onclick="filterTab('switch',this)">🔄 Cart Switch</div>
+<div class="tab" onclick="filterTab('wait',this)">⏳ Wait Here</div>
+</div>
+
+<div class="grid" id="grid"></div>
+
+<script>
+const players = [
+
+// GROUP 1 — 7:30 — No change
+{
+name:"Renner", team:"Team Alex", tee:"7:30",
+r2:"Renner & Dan vs John & Casey",
+r3:"Renner & Dan vs John & Casey",
+type:"go",
+action:"<b>No cart change.</b> Stay with Dan and go straight to Hole 10. Same opponents — John & Casey.",
+note:"🏌️ Same cart, same matchup. Be first to Hole 10."
+},
+{
+name:"Dan", team:"Team Dirr", tee:"7:30",
+r2:"Renner & Dan vs John & Casey",
+r3:"Renner & Dan vs John & Casey",
+type:"go",
+action:"<b>No cart change.</b> Stay with Renner and go straight to Hole 10. Same opponents — John & Casey.",
+note:"🏌️ Same cart, same matchup. Be first to Hole 10."
+},
+{
+name:"John", team:"Team Dirr", tee:"7:30",
+r2:"Renner & Dan vs John & Casey",
+r3:"Renner & Dan vs John & Casey",
+type:"go",
+action:"<b>No cart change.</b> Stay with Casey and go straight to Hole 10. Same opponents — Renner & Dan.",
+note:"🏌️ Same cart, same matchup. Be first to Hole 10."
+},
+{
+name:"Casey", team:"Team Alex", tee:"7:30",
+r2:"Renner & Dan vs John & Casey",
+r3:"Renner & Dan vs John & Casey",
+type:"go",
+action:"<b>No cart change.</b> Stay with John and go straight to Hole 10. Same opponents — Renner & Dan.",
+note:"🏌️ Same cart, same matchup. Be first to Hole 10."
+},
+
+// GROUP 2 — 7:42 — Cole/Wyatt split. Adam joins Cole.
+{
+name:"TJ", team:"Team Dirr", tee:"7:42",
+r2:"TJ & Jam vs Cole & Wyatt",
+r3:"TJ & Jam vs Cole & Adam",
+type:"go",
+action:"<b>Jam stays in your cart.</b> Opponents change slightly: Wyatt is out, Adam is jumping in with Cole (coming from 7:54). Wait a minute at the turn for Adam to arrive, then head straight to Hole 10.",
+note:"⚡ Adam is rushing over from the 7:54 group. Give him ~2 min then go."
+},
+{
+name:"Jam", team:"Team Alex", tee:"7:42",
+r2:"TJ & Jam vs Cole & Wyatt",
+r3:"TJ & Jam vs Cole & Adam",
+type:"go",
+action:"<b>TJ stays in your cart.</b> Opponents change slightly: Wyatt is out, Adam is jumping in with Cole (coming from 7:54). Wait a minute at the turn for Adam, then head straight to Hole 10.",
+note:"⚡ Adam is rushing over from the 7:54 group. Give him ~2 min then go."
+},
+{
+name:"Cole", team:"Team Dirr", tee:"7:42",
+r2:"TJ & Jam vs Cole & Wyatt",
+r3:"TJ & Jam vs Cole & Adam",
+type:"switch",
+action:"<b>Wyatt is leaving your cart</b> — he's waiting at the turn for his Round 3 group (Pat & Lammers). <b>Adam is joining you</b> from the 7:54 tee. Wait briefly at the turn for Adam, then all four of you head straight to Hole 10.",
+note:"⚡ Adam knows to hustle. ~2 min wait max, then go straight to Hole 10."
+},
+{
+name:"Wyatt", team:"Team Alex", tee:"7:42",
+r2:"TJ & Jam vs Cole & Wyatt",
+r3:"Pat & Lammers vs Wyatt & Chang",
+type:"wait",
+action:"<b>Leave Cole's cart at the turn and stay put.</b> Your Round 3 group (Pat & Lammers) tees off at 8:18, so you have a real wait. Chang will also be coming to join you from the 8:06 group. <b>This is the time to eat</b> — flag down Cole or TJ to put your food order in before they head to Hole 10.",
+note:"🍔 Use the wait wisely: eat, restroom, get comfortable. Chang will find you here."
+},
+
+// GROUP 3 — 7:54 — Adam leaves, Flip joins Cory
+{
+name:"Tuck", team:"Team Dirr", tee:"7:54",
+r2:"Tuck & Mitch vs Cory & Adam",
+r3:"Tuck & Mitch vs Flip & Cory",
+type:"go",
+action:"<b>Mitch stays in your cart.</b> Adam is leaving to join Cole's group. <b>Flip is coming over</b> from the 8:06 tee to partner with Cory. Brief wait at the turn for Flip, then all four go to Hole 10.",
+note:"⚡ Flip is coming from the 8:06 group. Short wait, then go straight to Hole 10."
+},
+{
+name:"Mitch", team:"Team Alex", tee:"7:54",
+r2:"Tuck & Mitch vs Cory & Adam",
+r3:"Tuck & Mitch vs Flip & Cory",
+type:"go",
+action:"<b>Tuck stays in your cart.</b> Adam is leaving to join Cole's group. <b>Flip is coming over</b> from the 8:06 tee to partner with Cory. Brief wait at the turn for Flip, then all four go to Hole 10.",
+note:"⚡ Flip is coming from the 8:06 group. Short wait, then go straight to Hole 10."
+},
+{
+name:"Cory", team:"Team Alex", tee:"7:54",
+r2:"Tuck & Mitch vs Cory & Adam",
+r3:"Tuck & Mitch vs Flip & Cory",
+type:"switch",
+action:"<b>Adam is leaving your cart</b> — he's rushing to join Cole's group. <b>Flip is joining you</b> from the 8:06 tee. Wait at the turn for Flip, then head straight to Hole 10 with Tuck & Mitch.",
+note:"⚡ Flip knows to hustle. Short wait, then don't delay — straight to Hole 10."
+},
+{
+name:"Adam", team:"Team Dirr", tee:"7:54",
+r2:"Tuck & Mitch vs Cory & Adam",
+r3:"TJ & Jam vs Cole & Adam",
+type:"switch",
+action:"<b>Leave Cory's cart immediately at the turn.</b> You need to get to Cole's cart — TJ & Jam are already waiting there with Cole. <b>Move fast — you have no time to spare.</b> Grab your bag, find Cole's cart, skip the food line, and go straight to Hole 10.",
+note:"🚨 You are the connector between groups. Cole, TJ & Jam are waiting on YOU. Move now!"
+},
+
+// GROUP 4 — 8:06 — Flip leaves, Chang stays, Dirr/Nate get new opponents
+{
+name:"Flip", team:"Team Alex", tee:"8:06",
+r2:"Dirr & Nate vs Flip & Chang",
+r3:"Tuck & Mitch vs Flip & Cory",
+type:"switch",
+action:"<b>Leave Chang's cart at the turn</b> and head to Cory's group (from the 7:54 tee). Tuck & Mitch are waiting. <b>Jump into Cory's cart</b> and go straight to Hole 10 — don't linger.",
+note:"🚨 Tuck, Mitch & Cory are waiting at the turn for you. Move quickly."
+},
+{
+name:"Chang", team:"Team Dirr", tee:"8:06",
+r2:"Dirr & Nate vs Flip & Chang",
+r3:"Pat & Lammers vs Wyatt & Chang",
+type:"switch",
+action:"<b>Flip is leaving your cart.</b> Head to the turn and <b>find Wyatt</b> — he's been waiting there since the 7:42 group. Your opponents Pat & Lammers are coming from the 8:18 tee. Hang tight with Wyatt until they arrive, then go straight to Hole 10.",
+note:"⏳ Find Wyatt at the 19th hole — you two wait together for Pat & Lammers."
+},
+{
+name:"Dirr", team:"Team Dirr", tee:"8:06",
+r2:"Dirr & Nate vs Flip & Chang",
+r3:"Nate & Dirr vs Alex & Sam",
+type:"wait",
+action:"<b>No cart change — Nate stays with you.</b> Flip & Chang are heading to other groups. Wait at the turn for your Round 3 opponents <b>Alex & Sam</b> (coming from the 8:18 tee), then all four go straight to Hole 10.",
+note:"⏳ Brief wait for Alex & Sam. Grab a drink but stay close to the turn."
+},
+{
+name:"Nate", team:"Team Alex", tee:"8:06",
+r2:"Dirr & Nate vs Flip & Chang",
+r3:"Nate & Dirr vs Alex & Sam",
+type:"wait",
+action:"<b>No cart change — Dirr stays with you.</b> Flip & Chang are heading to other groups. Wait at the turn for your Round 3 opponents <b>Alex & Sam</b> (coming from the 8:18 tee), then all four go straight to Hole 10.",
+note:"⏳ Brief wait for Alex & Sam. Grab a drink but stay close to the turn."
+},
+
+// GROUP 5 — 8:18 — last group
+{
+name:"Lammers", team:"Team Dirr", tee:"8:18",
+r2:"Lammers & Pat vs Sam & Alex",
+r3:"Pat & Lammers vs Wyatt & Chang",
+type:"go",
+action:"<b>No cart change — Pat stays with you.</b> At the turn, <b>Wyatt & Chang are both waiting for you</b>. Do NOT stop — get off Hole 9 and go straight to Hole 10 with all four.",
+note:"🚨 You're the last ones in — Wyatt & Chang have been waiting. Zero delay at the turn."
+},
+{
+name:"Pat", team:"Team Alex", tee:"8:18",
+r2:"Lammers & Pat vs Sam & Alex",
+r3:"Pat & Lammers vs Wyatt & Chang",
+type:"go",
+action:"<b>No cart change — Lammers stays with you.</b> At the turn, <b>Wyatt & Chang are both waiting for you</b>. Do NOT stop — get off Hole 9 and go straight to Hole 10 with all four.",
+note:"🚨 You're the last ones in — Wyatt & Chang have been waiting. Zero delay at the turn."
+},
+{
+name:"Sam", team:"Team Dirr", tee:"8:18",
+r2:"Lammers & Pat vs Sam & Alex",
+r3:"Nate & Dirr vs Alex & Sam",
+type:"go",
+action:"<b>No cart change — Alex stays with you.</b> At the turn, <b>Dirr & Nate are waiting for you</b>. Get off Hole 9 and go straight to Hole 10 — no delays.",
+note:"🚨 You're the last ones in — Dirr & Nate have been waiting. Zero delay at the turn."
+},
+{
+name:"Alex", team:"Team Alex", tee:"8:18",
+r2:"Lammers & Pat vs Sam & Alex",
+r3:"Nate & Dirr vs Alex & Sam",
+type:"go",
+action:"<b>No cart change — Sam stays with you.</b> At the turn, <b>Dirr & Nate are waiting for you</b>. Get off Hole 9 and go straight to Hole 10 — no delays.",
+note:"🚨 You're the last ones in — Dirr & Nate have been waiting. Zero delay at the turn."
+},
+];
+
+function statusPill(type) {
+if (type==='go') return `<span class="status-pill pill-go">✅ No Change</span>`;
+if (type==='switch') return `<span class="status-pill pill-switch">🔄 Cart Switch</span>`;
+return `<span class="status-pill pill-wait">⏳ Wait Here</span>`;
+}
+
+function buildCard(p) {
+const initials = p.name.slice(0,2).toUpperCase();
+const bc = p.type==='go' ? 'box-go' : p.type==='switch' ? 'box-switch' : 'box-wait';
+return `
+<div class="card" data-name="${p.name.toLowerCase()}" data-type="${p.type}">
+<div class="card-head">
+<div class="avatar">${initials}</div>
+<div>
+<div class="pname">${p.name}</div>
+<div class="pmeta">${p.team} &nbsp;·&nbsp; Tee ${p.tee}</div>
+</div>
+${statusPill(p.type)}
+</div>
+<div class="card-body">
+<div class="row-2col">
+<div class="mini-block">
+<div class="mini-label">Round 2 — Front 9</div>
+<div class="mini-val">${p.r2}</div>
+</div>
+<div class="mini-block gold-bg">
+<div class="mini-label">Round 3 — Back 9</div>
+<div class="mini-val">${p.r3}</div>
+</div>
+</div>
+<div class="divider"></div>
+<div class="action-label">At The Turn — What To Do</div>
+<div class="${bc}">${p.action}</div>
+<div class="footer-note"><span class="icon">📌</span><span>${p.note}</span></div>
+</div>
+</div>`;
+}
+
+document.getElementById('grid').innerHTML = players.map(buildCard).join('');
+
+function filterSearch() {
+const q = document.getElementById('searchInput').value.toLowerCase().trim();
+document.querySelectorAll('.card').forEach(c => {
+c.classList.toggle('hidden', !!q && !c.dataset.name.includes(q));
+});
+}
+
+function filterTab(type, el) {
+document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+el.classList.add('active');
+document.getElementById('searchInput').value = '';
+document.querySelectorAll('.card').forEach(c => {
+c.classList.toggle('hidden', type !== 'all' && c.dataset.type !== type);
+});
+}
+</script>
+
+</body>
+</html>
